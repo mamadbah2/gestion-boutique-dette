@@ -12,6 +12,10 @@ import com.sheet.data.repositories.interfaces.DetteInterf;
 
 public class DetteRepoDB extends RepositoryDBImpl<Dette> implements DetteInterf {
 
+    public DetteRepoDB() {
+        this.open();
+    }
+
     @Override
     public void add(Dette object) {
         String req = String.format("INSERT INTO dette (date, montant, description, clientId) VALUES ('%s', %f, '%s')", object.getDate(), object.getMontant(), object.getDescription(), object.getClient().getId());

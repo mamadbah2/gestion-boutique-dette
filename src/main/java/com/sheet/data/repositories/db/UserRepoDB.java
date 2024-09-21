@@ -1,10 +1,20 @@
 package com.sheet.data.repositories.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import java.sql.ResultSet;
+
 import com.sheet.data.entities.User;
 import com.sheet.data.repositories.RepositoryDBImpl;
 import com.sheet.data.repositories.interfaces.UserInterf;
 
 public class UserRepoDB extends RepositoryDBImpl<User> implements UserInterf {
+
+    public UserRepoDB() {
+        this.open();
+    }
+
     @Override
     public void add(User object) {
         String req = String.format("INSERT INTO user (login, firstname, lastname, active, roleId, clientId) VALUES (%s, %s, %s, %d, %d, %d)", object.getLogin(), object.getFirstname(), object.getLastname(), object.isActive(), object.getRole2().getId(), object.getClient().getId());
@@ -13,7 +23,7 @@ public class UserRepoDB extends RepositoryDBImpl<User> implements UserInterf {
 
     @Override
     public void remove(User object) {
-        String req = String.format("DELETE FROM dette WHERE date = '%s'", object.getDate());
+        String req = String.format("DELETE FROM user WHERE login = '%s'", object.getLogin());
         executeUpdate(req);
     }
 
@@ -25,28 +35,28 @@ public class UserRepoDB extends RepositoryDBImpl<User> implements UserInterf {
 
     @Override
     public List<User> getAll() {
-        List<User> dettes = new ArrayList<User>();
-        String req = "Select * from dette";
+        List<User> users = new ArrayList<User>();
+        String req = "Select * from user";
         try {
             ResultSet rs = executeSelect(req);
             while (rs.next()) {
-                User dette = new User(rs.getString("date"), rs.getDouble("montant"), rs.getString("description"), rs.getInt("clientId"));
-                dettes.add(dette);
+                User user = new User(rs.getString("login"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
+                users.add(user);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return dettes;
+        return users;
     }
 
     @Override
     public User getUser(String date) {
-        String req = String.format("Select * from dette where date = '%s'", date);
+        String req = String.format("Select * from user where login = '%s'", date);
         try {
             ResultSet rs = executeSelect(req);
             if (rs.next()) {
-                return new User(rs.getString("date"), rs.getDouble("montant"), rs.getString("description"), rs.getInt("clientId"));
+                return new User(rs.getString("login"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
             }
         } catch (Exception e) {
             e.printStackTrace();

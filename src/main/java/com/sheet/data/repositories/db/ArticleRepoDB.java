@@ -10,6 +10,10 @@ import com.sheet.data.repositories.interfaces.ArticleInterf;
 
 public class ArticleRepoDB extends RepositoryDBImpl<Article> implements ArticleInterf {
 
+    public ArticleRepoDB() {
+        this.open();
+    }
+
     @Override
     public void add(Article article) {
         String req = String.format(

@@ -31,7 +31,7 @@ public class ArticleView {
         article.setLibelle(scanner.nextLine());
 
         System.out.println("Entrer le prix de l'article :");
-        article.setPrix(scanner.nextDouble());
+        article.setPrix(scanner.nextInt());
 
         System.out.println("Entrer la quantite à stocker de l'article :");
         article.setQuantiteStock(scanner.nextInt());

@@ -12,6 +12,10 @@ import com.sheet.data.repositories.interfaces.ClientInterf;
 
 public class ClientRepoDB extends RepositoryDBImpl<Client> implements ClientInterf {
 
+    public ClientRepoDB() {
+        this.open();
+    }
+
     @Override
     public void add(Client client) {
         String req = String.format("INSERT INTO clients (name, email, phone, addresse) VALUES ('%s', '%s', '%s', '%s')", client.getName(), client.getEmail(), client.getPhone(), client.getAddress());

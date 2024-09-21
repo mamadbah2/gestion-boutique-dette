@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public abstract class RepositoryDBImpl<T> implements Repository<T> {
     protected Connection conn = null;
-    protected String dbName = "";
+    protected String dbName = "gestion_dette";
     protected String userName = "root";
     protected String userPassword = "root";
 
@@ -38,9 +38,8 @@ public abstract class RepositoryDBImpl<T> implements Repository<T> {
         try {
             Statement statement = conn.createStatement();
             rs = statement.executeQuery(req);
-
         } catch (SQLException e) {
-            System.out.println("Erreur de Connexion a votre BD");
+            System.out.println("Erreur de Connexion a votre BD "+e.getSQLState()+" - "+e.getMessage());
         }
         return rs;
     }

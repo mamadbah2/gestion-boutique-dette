@@ -2,6 +2,10 @@ package com.sheet;
 
 import java.util.Scanner;
 
+import com.sheet.data.repositories.db.ArticleRepoDB;
+import com.sheet.data.repositories.db.ClientRepoDB;
+import com.sheet.data.repositories.db.DetteRepoDB;
+import com.sheet.data.repositories.db.UserRepoDB;
 import com.sheet.data.repositories.interfaces.ArticleInterf;
 import com.sheet.data.repositories.interfaces.ClientInterf;
 import com.sheet.data.repositories.interfaces.DetteInterf;
@@ -20,7 +24,6 @@ import com.sheet.views.UserView;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
-   
 
     public static int showMenu(Scanner scanner) {
         System.out.println("1 - Creer un compte au client");
@@ -36,14 +39,21 @@ public class Main {
         int choice = scanner.nextInt();
         scanner.nextLine();
         return choice;
-    } 
+    }
 
     public static void main(String[] args) {
         // Design Pattern: Factory ----------------------------------------------
-        ClientInterf clientRepo = new ClientRepoList();
+        // --------List
+        /* ClientInterf clientRepo = new ClientRepoList();
         UserInterf userRepo = new UserRepoList();
         ArticleInterf articleRepo = new ArticleRepoList();
-        DetteInterf detteRepo = new DetteRepoList();
+        DetteInterf detteRepo = new DetteRepoList(); */
+        // --------Database
+        ClientInterf clientRepo = new ClientRepoDB();
+        UserInterf userRepo = new UserRepoDB();
+        ArticleInterf articleRepo = new ArticleRepoDB();
+        DetteInterf detteRepo = new DetteRepoDB();
+
         // ----------------------------------------------------------------------
         ClientServ clientServ = new ClientServ(clientRepo);
         UserServ userServ = new UserServ(userRepo);
@@ -61,7 +71,7 @@ public class Main {
                 case 1:
                     userServ.createAccount(userView.saisieFromClient());
                     break;
-                case 2 :
+                case 2:
                     userServ.createAccount(userView.saisie());
                     break;
                 case 3:
@@ -93,7 +103,6 @@ public class Main {
                     break;
             }
 
-            
         } while (choice != 10);
     }
 }

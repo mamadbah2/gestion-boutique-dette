@@ -29,6 +29,13 @@ public class User {
         this.lastname = lastname;
         this.role = role;
     }
+
+    public User(String login, String firstname, String lastname, boolean active) {
+        this.login = login;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.active = active;
+    }
     
     public String getLogin() {
         return login;

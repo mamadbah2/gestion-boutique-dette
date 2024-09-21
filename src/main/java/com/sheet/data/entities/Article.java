@@ -3,13 +3,13 @@ package com.sheet.data.entities;
 public class Article {
     private String reference;
     private String libelle;
-    private double prix;
+    private int prix;
     private int quantiteStock;
 
     public Article() {
     }
 
-    public Article(String reference, String libelle, double prix, int quantiteStock) {
+    public Article(String reference, String libelle, int prix, int quantiteStock) {
         this.reference = reference;
         this.libelle = libelle;
         this.prix = prix;
@@ -32,11 +32,11 @@ public class Article {
         this.libelle = libelle;
     }
 
-    public double getPrix() {
+    public int getPrix() {
         return prix;
     }
 
-    public void setPrix(double prix) {
+    public void setPrix(int prix) {
         this.prix = prix;
     }
 
