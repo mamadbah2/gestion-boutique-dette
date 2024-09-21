@@ -17,7 +17,7 @@ public class UserRepoDB extends RepositoryDBImpl<User> implements UserInterf {
 
     @Override
     public void add(User object) {
-        String req = String.format("INSERT INTO user (login, firstname, lastname, active, roleId, clientId) VALUES (%s, %s, %s, %d, %d, %d)", object.getLogin(), object.getFirstname(), object.getLastname(), object.isActive(), object.getRole2().getId(), object.getClient().getId());
+        String req = String.format("INSERT INTO user (login, firstname, lastname, active, roleId, clientId) VALUES (%s, %s, %s, %b, 1, %d)", object.getLogin(), object.getFirstname(), object.getLastname(), object.isActive(), object.getClient().getId());
         executeUpdate(req);
     }
 
