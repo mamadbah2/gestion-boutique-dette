@@ -16,6 +16,14 @@ public class Dette {
         this.client = client;
     }
 
+    public Dette(String date, double montant, String description, int ClientId) {
+        this.date = date;
+        this.montant = montant;
+        this.description = description;
+        this.client = new Client();
+        this.client.setId(ClientId);
+    }
+
     public String getDate() {
         return date;
     }

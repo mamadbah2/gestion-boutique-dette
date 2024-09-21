@@ -7,6 +7,15 @@ public class User {
     private String lastname;
     private String role;
     private boolean active = true;
+    private Role role2;
+
+    public Role getRole2() {
+        return role2;
+    }
+
+    public void setRole2(Role role2) {
+        this.role2 = role2;
+    }
 
     private Client client;
 
