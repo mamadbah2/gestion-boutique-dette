@@ -1,5 +1,6 @@
 package com.sheet.data.entities;
 
+
 public class User {
     private String login;
     private String password;
@@ -8,7 +9,7 @@ public class User {
     private String role;
     private boolean active = true;
     private Role role2;
-
+    private Client client;
     public Role getRole2() {
         return role2;
     }
@@ -17,17 +18,17 @@ public class User {
         this.role2 = role2;
     }
 
-    private Client client;
 
     public User() {
     }
 
-    public User(String login, String password, String firstname, String lastname, String role) {
+    public User(String login, String password, String firstname, String lastname, boolean  active) {
         this.login = login;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.role = role;
+        this.role2.getId();
+        this.active = active;
     }
 
     public User(String login, String firstname, String lastname, boolean active) {

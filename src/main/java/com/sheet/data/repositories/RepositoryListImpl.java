@@ -1,9 +1,9 @@
 package com.sheet.data.repositories;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.protocol.Resultset;
 import com.sheet.core.repository.interfaces.Repository;
 
 public class RepositoryListImpl<T> implements Repository<T> {
@@ -30,9 +30,9 @@ public class RepositoryListImpl<T> implements Repository<T> {
     }
 
     @Override
-    public T convertToObject(Resultset rs) {
+    public T convertToObject(ResultSet rs) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'convertToObject'");
     }
-    
+
 }

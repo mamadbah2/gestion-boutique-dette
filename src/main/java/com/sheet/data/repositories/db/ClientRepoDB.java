@@ -1,9 +1,9 @@
 package com.sheet.data.repositories.db;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sheet.core.database.DatabaseImpl;
 import com.sheet.data.entities.Client;
@@ -14,8 +14,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
     public ClientRepoDB() {
         try {
             this.getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
     }
 
@@ -26,8 +25,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
     }
 
@@ -37,8 +35,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
     }
 
@@ -50,7 +47,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
 
     @Override
     public List<Client> getAll() {
-        List<Client> clients = new ArrayList<Client>();
+        List<Client> clients = new ArrayList<>();
 
         String req = "Select * from client";
         try {
@@ -59,8 +56,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
             while (rs.next()) {
                 clients.add(this.convertToObject(rs));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
 
         return clients;
@@ -76,8 +72,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
                 Client client = this.convertToObject(rs);
                 return client;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
         return null;
     }
@@ -87,8 +82,7 @@ public class ClientRepoDB extends DatabaseImpl implements ClientInterf {
         try {
             return new Client(rs.getString("name"), rs.getString("email"), rs.getString("phone"),
                     rs.getString("addresse"));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
         return null;
     }
