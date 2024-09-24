@@ -12,7 +12,7 @@ import com.sheet.views.DetteView;
 import com.sheet.views.UserView;
 
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     // ----------------------------------------------------------------------
     public static int showMenu(Scanner scanner) {
@@ -52,39 +52,17 @@ public class Main {
         do {
             choice = showMenu(scanner);
             switch (choice) {
-                case 1:
-                    userServ.createAccount(userView.saisieFromClient());
-                    break;
-                case 2:
-                    userServ.createAccount(userView.saisie());
-                    break;
-                case 3:
-                    userServ.toggleUser(userView.ActiveOrDesactive());
-                    break;
-                case 4:
-                    userView.showUsers(userServ.findActiveUsers());
-                    break;
-                case 5:
-                    articleServ.createArticle(articleView.saisie());
-                    break;
-                case 6:
-                    articleView.showArticles(articleServ.findArticles());
-                    break;
-                case 7:
-                    articleView.showArticles(articleServ.findArticlesDisponible());
-                    break;
-                case 8:
-                    articleServ.updateArticle(articleView.UpdateQteStock());
-                    break;
-                case 9:
-                    detteServ.ArchivedDette(detteView.ArchivedValidateDette());
-                    break;
-                case 10:
-                    System.out.println("Au revoir !");
-                    break;
-                default:
-                    System.out.println("Choix invalide");
-                    break;
+                case 1 -> userServ.createAccount(userView.saisieFromClient());
+                case 2 -> userServ.createAccount(userView.saisie());
+                case 3 -> userServ.toggleUser(userView.ActiveOrDesactive());
+                case 4 -> userView.showUsers(userServ.findActiveUsers());
+                case 5 -> articleServ.createArticle(articleView.saisie());
+                case 6 -> articleView.showArticles(articleServ.findArticles());
+                case 7 -> articleView.showArticles(articleServ.findArticlesDisponible());
+                case 8 -> articleServ.updateArticle(articleView.UpdateQteStock());
+                case 9 -> detteServ.ArchivedDette(detteView.ArchivedValidateDette());
+                case 10 -> System.out.println("Au revoir !");
+                default -> System.out.println("Choix invalide");
             }
 
         } while (choice != 10);

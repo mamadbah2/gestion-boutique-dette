@@ -1,7 +1,8 @@
 package com.sheet.data.repositories.db;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import java.sql.ResultSet;
 
@@ -9,10 +10,13 @@ import com.sheet.core.database.DatabaseImpl;
 import com.sheet.data.entities.Article;
 import com.sheet.data.repositories.interfaces.ArticleInterf;
 
-public class ArticleRepoDB extends DatabaseImpl<Article> implements ArticleInterf {
+public class ArticleRepoDB extends DatabaseImpl implements ArticleInterf {
 
     public ArticleRepoDB() {
-        this.open();
+        try {
+            this.getConnection();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
@@ -20,13 +24,21 @@ public class ArticleRepoDB extends DatabaseImpl<Article> implements ArticleInter
         String req = String.format(
                 "Insert into article (reference, libelle, prix, qteStock) values ('%s', '%s', %d, %d)",
                 article.getReference(), article.getLibelle(), article.getPrix(), article.getQuantiteStock());
-        executeUpdate(req);
+        try {
+            this.initPreparedStatement(req);
+            this.ps.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
     public void remove(Article article) {
         String req = String.format("Delete from article where reference = '%s'", article.getReference());
-        executeUpdate(req);
+        try {
+            this.initPreparedStatement(req);
+            this.ps.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
@@ -37,18 +49,17 @@ public class ArticleRepoDB extends DatabaseImpl<Article> implements ArticleInter
 
     @Override
     public List<Article> getAll() {
-        List<Article> articles = new ArrayList<Article>();
+        List<Article> articles = new ArrayList<>();
         String req = "Select * from article";
         try {
-            ResultSet rs = executeSelect(req);
+            this.initPreparedStatement(req);
+            ResultSet rs = this.ps.executeQuery();
             while (rs.next()) {
-                Article article = new Article(rs.getString("reference"), rs.getString("libelle"), rs.getInt("prix"),
-                        rs.getInt("qteStock"));
-                articles.add(article);
+                articles.add(this.convertToObject(rs));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
+
 
         return articles;
     }
@@ -57,21 +68,25 @@ public class ArticleRepoDB extends DatabaseImpl<Article> implements ArticleInter
     public Article getArticle(String reference) {
         String req = String.format("Select * from article where reference = '%s'", reference);
         try {
-            ResultSet rs = executeSelect(req);
+            this.initPreparedStatement(req);
+            ResultSet rs = this.ps.executeQuery();
             if (rs.next()) {
-                return new Article(rs.getString("reference"), rs.getString("libelle"), rs.getInt("prix"),
-                        rs.getInt("qteStock"));
+                Article article = this.convertToObject(rs);
+                return article;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
         return null;
     }
 
     @Override
     public Article convertToObject(ResultSet rs) {
-        return new Article(rs.getString("reference"), rs.getString("libelle"), rs.getInt("prix"),
-                rs.getInt("qteStock"));
+        try {
+            return new Article(rs.getString("reference"), rs.getString("libelle"), rs.getInt("prix"),
+            rs.getInt("qteStock"));
+        } catch (SQLException e) {
+        }
+        return null;
     }
 
 }

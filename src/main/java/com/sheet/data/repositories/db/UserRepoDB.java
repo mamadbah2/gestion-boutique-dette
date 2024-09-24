@@ -1,30 +1,41 @@
 package com.sheet.data.repositories.db;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.sql.ResultSet;
-
 import com.sheet.core.database.DatabaseImpl;
 import com.sheet.data.entities.User;
 import com.sheet.data.repositories.interfaces.UserInterf;
 
-public class UserRepoDB extends DatabaseImpl<User> implements UserInterf {
+public class UserRepoDB extends DatabaseImpl implements UserInterf {
 
     public UserRepoDB() {
-        this.open();
+        try {
+            this.getConnection();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
-    public void add(User object) {
-        String req = String.format("INSERT INTO user (login, firstname, lastname, active, roleId, clientId) VALUES (%s, %s, %s, %b, 1, %d)", object.getLogin(), object.getFirstname(), object.getLastname(), object.isActive(), object.getClient().getId());
-        executeUpdate(req);
+    public void add(User user) {
+        String req = String.format("INSERT INTO user (login, password, firstname, lastname, roleId, clientId) VALUES ('%s', '%s', '%s', '%s', '%d', '%d')",
+                user.getLogin(), user.getPassword(), user.getFirstname(), user.getLastname(), user.getRole2().getId(), user.getClient().getId());
+        try {
+            this.initPreparedStatement(req);
+            this.ps.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
     public void remove(User object) {
         String req = String.format("DELETE FROM user WHERE login = '%s'", object.getLogin());
-        executeUpdate(req);
+        try {
+            this.initPreparedStatement(req);
+            this.ps.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
@@ -35,16 +46,16 @@ public class UserRepoDB extends DatabaseImpl<User> implements UserInterf {
 
     @Override
     public List<User> getAll() {
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         String req = "Select * from user";
         try {
-            ResultSet rs = executeSelect(req);
+            this.initPreparedStatement(req);
+            ResultSet rs = this.ps.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getString("login"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
-                users.add(user);
+                users.add(this.convertToObject(rs));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return users;
@@ -54,18 +65,22 @@ public class UserRepoDB extends DatabaseImpl<User> implements UserInterf {
     public User getUser(String date) {
         String req = String.format("Select * from user where login = '%s'", date);
         try {
-            ResultSet rs = executeSelect(req);
+            this.initPreparedStatement(req);
+            ResultSet rs = this.ps.executeQuery();
             if (rs.next()) {
-                return new User(rs.getString("login"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+                User user = this.convertToObject(rs);
+                return user;            }
+        } catch (SQLException e) {
         }
         return null;
     }
 
     @Override
     public User convertToObject(ResultSet rs) {
-        return new User(rs.getString("login"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
+        try {
+            return new User(rs.getString("login"), rs.getString("password"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
+        } catch (SQLException e) {
+        }
+        return null;
     }
 }
