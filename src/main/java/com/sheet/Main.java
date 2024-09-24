@@ -2,20 +2,9 @@ package com.sheet;
 
 import java.util.Scanner;
 
-import com.sheet.data.repositories.db.ArticleRepoDB;
-import com.sheet.data.repositories.db.ClientRepoDB;
-import com.sheet.data.repositories.db.DetteRepoDB;
-import com.sheet.data.repositories.db.UserRepoDB;
-import com.sheet.data.repositories.interfaces.ArticleInterf;
-import com.sheet.data.repositories.interfaces.ClientInterf;
-import com.sheet.data.repositories.interfaces.DetteInterf;
-import com.sheet.data.repositories.interfaces.UserInterf;
-import com.sheet.data.repositories.list.ArticleRepoList;
-import com.sheet.data.repositories.list.ClientRepoList;
-import com.sheet.data.repositories.list.DetteRepoList;
-import com.sheet.data.repositories.list.UserRepoList;
+import com.sheet.core.factory.FactoryRepo;
+import com.sheet.core.factory.FactoryServ;
 import com.sheet.services.ArticleServ;
-import com.sheet.services.ClientServ;
 import com.sheet.services.DetteServ;
 import com.sheet.services.UserServ;
 import com.sheet.views.ArticleView;
@@ -25,6 +14,7 @@ import com.sheet.views.UserView;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
+    // ----------------------------------------------------------------------
     public static int showMenu(Scanner scanner) {
         System.out.println("1 - Creer un compte au client");
         System.out.println("2 - Creer compte (Admin ou Boutiquier)");
@@ -43,26 +33,20 @@ public class Main {
 
     public static void main(String[] args) {
         // Design Pattern: Factory ----------------------------------------------
-        // --------List
-        /* ClientInterf clientRepo = new ClientRepoList();
-        UserInterf userRepo = new UserRepoList();
-        ArticleInterf articleRepo = new ArticleRepoList();
-        DetteInterf detteRepo = new DetteRepoList(); */
-        // --------Database
-        ClientInterf clientRepo = new ClientRepoDB();
-        UserInterf userRepo = new UserRepoDB();
-        ArticleInterf articleRepo = new ArticleRepoDB();
-        DetteInterf detteRepo = new DetteRepoDB();
+        FactoryRepo factoryRepo = new FactoryRepo();
+        FactoryServ factoryServ = new FactoryServ(factoryRepo.getInstanceOfClientRepo(),
+                factoryRepo.getInstanceOfUserRepo(),
+                factoryRepo.getInstanceOfArticleRepo(), factoryRepo.getInstanceOfDetteRepo());
 
         // ----------------------------------------------------------------------
-        ClientServ clientServ = new ClientServ(clientRepo);
-        UserServ userServ = new UserServ(userRepo);
-        ArticleServ articleServ = new ArticleServ(articleRepo);
-        DetteServ detteServ = new DetteServ(detteRepo);
+        // ClientServ clientServ = factory.getInstanceOfClientServ();
+        UserServ userServ = factoryServ.getInstanceOfUserServ();
+        ArticleServ articleServ = factoryServ.getInstanceOfArticleServ();
+        DetteServ detteServ = factoryServ.getInstanceOfDetteServ();
         // ----------------------------------------------------------------------
-        UserView userView = new UserView(scanner, userServ, clientServ);
-        ArticleView articleView = new ArticleView(scanner, articleServ);
-        DetteView detteView = new DetteView(scanner, detteServ);
+        UserView userView = new UserView(scanner, factoryServ.getInstanceOfUserServ(), factoryServ.getInstanceOfClientServ());
+        ArticleView articleView = new ArticleView(scanner, factoryServ.getInstanceOfArticleServ())  ;
+        DetteView detteView = new DetteView(scanner, factoryServ.getInstanceOfDetteServ());
 
         int choice;
         do {

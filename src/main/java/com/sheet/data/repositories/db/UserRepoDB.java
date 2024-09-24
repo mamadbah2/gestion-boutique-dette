@@ -5,11 +5,11 @@ import java.util.List;
 
 import java.sql.ResultSet;
 
+import com.sheet.core.database.DatabaseImpl;
 import com.sheet.data.entities.User;
-import com.sheet.data.repositories.RepositoryDBImpl;
 import com.sheet.data.repositories.interfaces.UserInterf;
 
-public class UserRepoDB extends RepositoryDBImpl<User> implements UserInterf {
+public class UserRepoDB extends DatabaseImpl<User> implements UserInterf {
 
     public UserRepoDB() {
         this.open();
@@ -62,5 +62,10 @@ public class UserRepoDB extends RepositoryDBImpl<User> implements UserInterf {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public User convertToObject(ResultSet rs) {
+        return new User(rs.getString("login"), rs.getString("firstname"), rs.getString("lastname"), rs.getBoolean("active"));
     }
 }

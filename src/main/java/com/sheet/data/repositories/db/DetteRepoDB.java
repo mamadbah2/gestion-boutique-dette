@@ -5,12 +5,11 @@ import java.util.ArrayList;
 
 import java.sql.ResultSet;
 
-
+import com.sheet.core.database.DatabaseImpl;
 import com.sheet.data.entities.Dette;
-import com.sheet.data.repositories.RepositoryDBImpl;
 import com.sheet.data.repositories.interfaces.DetteInterf;
 
-public class DetteRepoDB extends RepositoryDBImpl<Dette> implements DetteInterf {
+public class DetteRepoDB extends DatabaseImpl<Dette> implements DetteInterf {
 
     public DetteRepoDB() {
         this.open();
@@ -65,5 +64,9 @@ public class DetteRepoDB extends RepositoryDBImpl<Dette> implements DetteInterf 
         return null;
     }
     
+    @Override
+    public Dette convertToObject(ResultSet rs) {
+        return new Dette(rs.getString("date"), rs.getDouble("montant"), rs.getString("description"), rs.getInt("clientId"));
+    }
     
 }

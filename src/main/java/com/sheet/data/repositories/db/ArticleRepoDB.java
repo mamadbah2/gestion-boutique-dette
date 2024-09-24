@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.sql.ResultSet;
+
+import com.sheet.core.database.DatabaseImpl;
 import com.sheet.data.entities.Article;
-import com.sheet.data.repositories.RepositoryDBImpl;
 import com.sheet.data.repositories.interfaces.ArticleInterf;
 
-public class ArticleRepoDB extends RepositoryDBImpl<Article> implements ArticleInterf {
+public class ArticleRepoDB extends DatabaseImpl<Article> implements ArticleInterf {
 
     public ArticleRepoDB() {
         this.open();
@@ -65,6 +66,12 @@ public class ArticleRepoDB extends RepositoryDBImpl<Article> implements ArticleI
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Article convertToObject(ResultSet rs) {
+        return new Article(rs.getString("reference"), rs.getString("libelle"), rs.getInt("prix"),
+                rs.getInt("qteStock"));
     }
 
 }
