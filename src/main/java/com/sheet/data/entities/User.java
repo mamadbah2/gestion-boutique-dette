@@ -1,5 +1,8 @@
 package com.sheet.data.entities;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 public class User {
     private String login;
@@ -24,7 +27,7 @@ public class User {
 
     public User(String login, String password, String firstname, String lastname, boolean  active) {
         this.login = login;
-        this.password = password;
+        this.password = hashPassword(password);
         this.firstname = firstname;
         this.lastname = lastname;
         this.role2.getId();
@@ -67,7 +70,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = hashPassword(password);
     }
 
     public String getFirstname() {
@@ -92,6 +95,22 @@ public class User {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

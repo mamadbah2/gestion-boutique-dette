@@ -6,7 +6,6 @@ import java.util.List;
 import java.sql.ResultSet;
 
 import com.sheet.core.database.DatabaseImpl;
-import com.sheet.data.entities.Client;
 import com.sheet.data.entities.Dette;
 import com.sheet.data.repositories.interfaces.DetteInterf;
 

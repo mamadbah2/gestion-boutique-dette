@@ -41,19 +41,19 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
-    public void executeSelect(String req) {
+    public ResultSet executeSelect(String req) throws SQLException {
         try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(req);
-            while (rs.next()) {
-                System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
-            }
+            return this.ps.executeQuery();
         } catch (SQLException e) {
-            System.out.println("Erreur d'execution de la requete");
-            throw new RuntimeException(e);
+            return null;
         }
     }
 
+    @Override
+    public int executeUpdate() throws SQLException {
+        return ps.executeUpdate();
+    }
+    
     @Override
     public void initPreparedStatement(String req) throws SQLException {
         if (req.trim().toUpperCase().startsWith("SELECT")) {
@@ -63,11 +63,5 @@ public class DatabaseImpl implements Database {
         }
     }
 
-    @Override
-    public int executeUpdate() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'executeUpdate'");
-    }
-    
 }
 // TODO Auto-generated method stub
