@@ -1,12 +1,40 @@
 package com.sheet.data.entities;
 
+import java.util.List;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import jakarta.persistence.Entity;
+
+@Entity
 public class Article {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String reference;
     private String libelle;
     private int prix;
     private int quantiteStock;
-
+    private List<Dette> dettes;
+    
     public Article() {
+    }
+    
+    
+    public List<Dette> getDettes() {
+        return dettes;
+    }
+
+    public void setDettes(List<Dette> dettes) {
+        this.dettes = dettes;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Article(String reference, String libelle, int prix, int quantiteStock) {

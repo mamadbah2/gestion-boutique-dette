@@ -1,5 +1,8 @@
 package com.sheet.data.entities;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Role {
     private int id;
     private String role;

@@ -3,7 +3,10 @@ package com.sheet.data.entities;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 
+@Entity
 public class User {
     private String login;
     private String password;
@@ -12,6 +15,7 @@ public class User {
     private String role;
     private boolean active = true;
     private Role role2;
+    @OneToOne
     private Client client;
     public Role getRole2() {
         return role2;

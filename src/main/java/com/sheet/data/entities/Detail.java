@@ -1,14 +1,34 @@
 package com.sheet.data.entities;
 
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Detail {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private int quantite;
+    @OneToMany
     private Dette dette;
+    @OneToMany
     private Article article;
 
     public Detail(int quantite, Dette dette, Article article) {
         this.quantite = quantite;
         this.dette = dette;
         this.article = article;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getQuantite() {

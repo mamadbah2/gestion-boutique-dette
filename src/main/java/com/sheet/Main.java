@@ -2,6 +2,7 @@ package com.sheet;
 
 import java.util.Scanner;
 
+import com.sheet.core.database.DatabaseConfig;
 import com.sheet.core.factory.FactoryRepo;
 import com.sheet.core.factory.FactoryServ;
 import com.sheet.services.ArticleServ;
@@ -32,21 +33,28 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // Design Pattern: Factory ----------------------------------------------
-        FactoryRepo factoryRepo = new FactoryRepo();
-        FactoryServ factoryServ = new FactoryServ(factoryRepo.getInstanceOfClientRepo(),
-                factoryRepo.getInstanceOfUserRepo(),
-                factoryRepo.getInstanceOfArticleRepo(), factoryRepo.getInstanceOfDetteRepo());
+        // Charger la configuration des bases de données
+    DatabaseConfig databaseConfig = new DatabaseConfig();
 
-        // ----------------------------------------------------------------------
-        // ClientServ clientServ = factory.getInstanceOfClientServ();
-        UserServ userServ = factoryServ.getInstanceOfUserServ();
-        ArticleServ articleServ = factoryServ.getInstanceOfArticleServ();
-        DetteServ detteServ = factoryServ.getInstanceOfDetteServ();
-        // ----------------------------------------------------------------------
-        UserView userView = new UserView(scanner, factoryServ.getInstanceOfUserServ(), factoryServ.getInstanceOfClientServ());
-        ArticleView articleView = new ArticleView(scanner, factoryServ.getInstanceOfArticleServ())  ;
-        DetteView detteView = new DetteView(scanner, factoryServ.getInstanceOfDetteServ());
+    // Design Pattern: Factory ----------------------------------------------
+    FactoryRepo factoryRepo = new FactoryRepo(databaseConfig.entityManagerFactory().createEntityManager());
+    FactoryServ factoryServ = new FactoryServ(
+        factoryRepo.getInstanceOfClientRepo(),
+        factoryRepo.getInstanceOfUserRepo(),
+        factoryRepo.getInstanceOfArticleRepo(),
+        factoryRepo.getInstanceOfDetteRepo()
+    );
+
+    // ----------------------------------------------------------------------
+    // ClientServ clientServ = factory.getInstanceOfClientServ();
+    UserServ userServ = factoryServ.getInstanceOfUserServ();
+    ArticleServ articleServ = factoryServ.getInstanceOfArticleServ();
+    DetteServ detteServ = factoryServ.getInstanceOfDetteServ();
+    // ----------------------------------------------------------------------
+    
+    UserView userView = new UserView(scanner, userServ, factoryServ.getInstanceOfClientServ());
+    ArticleView articleView = new ArticleView(scanner, articleServ);
+    DetteView detteView = new DetteView(scanner, detteServ);
 
         int choice;
         do {

@@ -1,13 +1,16 @@
 package com.sheet.data.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Client {
     private int id;
-    
-
     private String name;
     private String email;
     private String phone;
     private String address;
+    @OneToOne
     private User user;
 
     public Client() {
