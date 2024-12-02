@@ -1,17 +1,13 @@
 package com.sheet.data.repositories.list;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sheet.data.entities.User;
-import com.sheet.data.repositories.RepositoryListImpl;
+import com.sheet.data.repositories.ListImpl;
 import com.sheet.data.repositories.interfaces.UserInterf;
 
-public class UserRepoList extends RepositoryListImpl<User> implements UserInterf {
-    private List<User> users = new ArrayList<User>();
+public class UserRepoList extends ListImpl<User> implements UserInterf {
     
     public User getUser(String login) {
-        for (User user : users) {
+        for (User user : objects) {
             if (user.getLogin().equals(login)) {
                 return user;
             }

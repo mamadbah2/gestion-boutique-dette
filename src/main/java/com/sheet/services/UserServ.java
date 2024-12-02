@@ -40,4 +40,8 @@ public class UserServ {
         userRepo.getAll().stream().filter(user -> user.isActive()).forEach(activeUsers::add);
         return activeUsers;
     }
+
+    public List<User> findAllUsers() {
+        return userRepo.getAll();
+    }
 }

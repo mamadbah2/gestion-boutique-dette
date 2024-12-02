@@ -2,14 +2,8 @@ package com.sheet.data.entities;
 
 import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
-import jakarta.persistence.Entity;
-
-@Entity
 public class Article {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String reference;
     private String libelle;

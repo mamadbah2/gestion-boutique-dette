@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.sheet.data.entities.Client;
+import com.sheet.data.entities.Role;
 import com.sheet.data.entities.User;
 import com.sheet.services.ClientServ;
 import com.sheet.services.UserServ;
@@ -42,7 +43,10 @@ public class UserView {
         u.setPassword(scanner.nextLine());
 
         System.out.println("Role : user");
-        u.setRole("user");
+
+        Role role = new Role();
+        role.setRole("user");
+        u.setRole(role);
 
         u.setClient(cl);
 
@@ -75,14 +79,16 @@ public class UserView {
         System.out.println("2. admin");
         int choice = scanner.nextInt();
         scanner.nextLine();
+        Role role = new Role();
         if (choice == 1) {
-            u.setRole("user");
+            role.setRole("user");
         } else if (choice == 2) {
-            u.setRole("admin");
+            role.setRole("admin");
         } else {
             System.out.println("Choix invalide");
             return null;
         }
+        u.setRole(role);
 
 
         return u;
@@ -107,6 +113,12 @@ public class UserView {
             return login;
         }
         return "";
+    }
+
+    public String saisieLogin() {
+        System.out.println("Login : ");
+        String name = scanner.nextLine();
+        return name;
     }
 
     public void showUsers(List<User> users) {

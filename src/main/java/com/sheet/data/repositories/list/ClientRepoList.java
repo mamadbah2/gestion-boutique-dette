@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sheet.data.entities.Client;
-import com.sheet.data.repositories.RepositoryListImpl;
+import com.sheet.data.repositories.ListImpl;
 import com.sheet.data.repositories.interfaces.ClientInterf;
 
-public class ClientRepoList extends RepositoryListImpl<Client> implements ClientInterf {
+public class ClientRepoList extends ListImpl<Client> implements ClientInterf {
     private List<Client> clients = new ArrayList<Client>();
 
     public ClientRepoList() {

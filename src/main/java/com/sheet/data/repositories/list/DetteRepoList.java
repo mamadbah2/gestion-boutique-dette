@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sheet.data.entities.Dette;
-import com.sheet.data.repositories.RepositoryListImpl;
+import com.sheet.data.repositories.ListImpl;
 import com.sheet.data.repositories.interfaces.DetteInterf;
 
-public class DetteRepoList extends RepositoryListImpl<Dette> implements DetteInterf {
+public class DetteRepoList extends ListImpl<Dette> implements DetteInterf {
     private List<Dette> dettes = new ArrayList<Dette>();
 
     public Dette getDette(String date) {

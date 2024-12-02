@@ -1,13 +1,14 @@
 package com.sheet.data.repositories;
 
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sheet.core.repository.interfaces.Repository;
 
-public class RepositoryListImpl<T> implements Repository<T> {
-    private List<T> objects= new ArrayList<>(); ;
+public class ListImpl<T> implements Repository<T> {
+    protected List<T> objects= new ArrayList<>(); ;
 
     @Override
     public void add(T object) {
@@ -34,5 +35,7 @@ public class RepositoryListImpl<T> implements Repository<T> {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'convertToObject'");
     }
+
+    
 
 }

@@ -25,6 +25,10 @@ public class DetteView {
         for (int i = 0; i < dettes.size(); i++) {
             System.out.println(i + " - " + dettes.get(i).toString());
         }
+        if (dettes.size() == 0) {
+            System.out.println("Aucune dette à valider");
+            return null;
+        }
 
         int choix = scanner.nextInt();
         scanner.nextLine();

@@ -12,18 +12,10 @@ public class User {
     private String password;
     private String firstname;
     private String lastname;
-    private String role;
+    private Role role;
     private boolean active = true;
-    private Role role2;
     @OneToOne
     private Client client;
-    public Role getRole2() {
-        return role2;
-    }
-
-    public void setRole2(Role role2) {
-        this.role2 = role2;
-    }
 
 
     public User() {
@@ -34,7 +26,6 @@ public class User {
         this.password = hashPassword(password);
         this.firstname = firstname;
         this.lastname = lastname;
-        this.role2.getId();
         this.active = active;
     }
 
@@ -61,11 +52,11 @@ public class User {
         this.active = active;
     }
     
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -124,6 +115,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", role=" + role.toString() + '\'' +
+                ", active=" + active + '\'' +
                 '}';
     }
 
